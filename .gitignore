@@ -4,9 +4,8 @@
 .RData
 .Ruserdata
 
-# Outputs gerados — não versionar (gerados pelo Rmd)
+# Resultados Excel (gerados pelo Rmd)
 output/
-figures/
 
 # HTML gerado localmente
 *.html
