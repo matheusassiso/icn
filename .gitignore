@@ -1,0 +1,13 @@
+# RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Outputs gerados — não versionar (gerados pelo Rmd)
+output/
+figures/
+
+# HTML gerado localmente
+*.html
+docs/
