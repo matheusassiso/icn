@@ -4,9 +4,11 @@
 .RData
 .Ruserdata
 
-# Resultados Excel (gerados pelo Rmd)
+# Resultados Excel e HTML (gerados pelo Rmd)
 output/
-
-# HTML gerado localmente
 *.html
 docs/
+
+# Cache e arquivos temporários do knitr
+*_cache/
+*_files/

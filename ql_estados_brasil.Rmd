@@ -1,6 +1,6 @@
 ---
-title: "Indicadores de Análise Regional — QL, PR, IHH e ICN por UF"
-subtitle: "RAIS 2020 · Empregos Formais por Subclasse CNAE"
+title: "Indicadores de Análise Regional — Municípios do Mato Grosso do Sul"
+subtitle: "QL · PR · IHH · ICN por subclasse CNAE agropecuária"
 author: "Matheus Assiso"
 date: "`r format(Sys.Date(), '%d de %B de %Y')`"
 output:
@@ -29,19 +29,18 @@ knitr::opts_chunk$set(
 )
 
 dir.create("figures", showWarnings = FALSE)
+dir.create("output",  showWarnings = FALSE)
 
 salvar <- function(nome, w = 10, h = 6.5) {
-  ggsave(
-    filename = file.path("figures", paste0(nome, ".png")),
-    width = w, height = h, dpi = 150, bg = "white"
-  )
+  ggsave(file.path("figures", paste0(nome, ".png")),
+         width = w, height = h, dpi = 150, bg = "white")
 }
 ```
 
 ---
 
-> **Referência metodológica**: MONASTERIO, L. Indicadores de análise regional
-> e espacial. In: CRUZ, B. O. *et al.* (orgs.). **Economia Regional e Urbana:
+> **Referência metodológica**: MONASTERIO, L. Indicadores de análise regional e
+> espacial. In: CRUZ, B. O. *et al.* (orgs.). **Economia Regional e Urbana:
 > Teorias e métodos com ênfase no Brasil**. Brasília: Ipea, 2011. Cap. 10,
 > p. 315–331.
 
@@ -54,7 +53,6 @@ library(tidyverse)
 library(readxl)
 library(writexl)
 library(psych)
-library(geobr)
 library(sf)
 library(viridis)
 library(scales)
@@ -65,65 +63,44 @@ library(kableExtra)
 library(RColorBrewer)
 
 source("R/code.R")
-
-# Paleta das grandes regiões brasileiras
-cores_regioes <- c(
-  "Norte"         = "#2196F3",
-  "Nordeste"      = "#FF9800",
-  "Centro-Oeste"  = "#4CAF50",
-  "Sudeste"       = "#9C27B0",
-  "Sul"           = "#F44336"
-)
-
-# Mapa de UF → Grande Região
-regiao_uf <- tibble(
-  abbrev_state = c("AC","AM","AP","PA","RO","RR","TO",
-                   "AL","BA","CE","MA","PB","PE","PI","RN","SE",
-                   "DF","GO","MS","MT",
-                   "ES","MG","RJ","SP",
-                   "PR","RS","SC"),
-  grande_regiao = c(rep("Norte",7), rep("Nordeste",8),
-                    rep("Centro-Oeste",4), rep("Sudeste",4), rep("Sul",3))
-)
 ```
 
 # Dados
 
-```{r dados-importar, eval=FALSE}
-# Executar apenas uma vez para converter o Excel em .rds
-dados_raw <- read_excel("data/dados.xlsx", sheet = "dados", na = ".")
-saveRDS(dados_raw, "data/dados.rds")
-```
+Os dados contêm **vínculos de emprego formal por subclasse CNAE** nos
+79 municípios de **Mato Grosso do Sul**, com foco no setor agropecuário.
 
-```{r dados-carregar}
+```{r dados}
 dados <- readRDS("data/dados.rds")
 
-# Subclasses com emprego nacional > 0 (evita divisão por zero)
+# Última coluna = total estadual "Mato Grosso do Sul" — excluir do cálculo
+col_total <- ncol(dados)   # índice da última coluna (total estadual)
+
+# Remover subclasses sem emprego no estado
 dadosf <- dados |>
-  filter(Brasil != 0) |>
-  select(codSubclasse:Brasil)
+  filter(.data[[names(dados)[col_total]]] != 0) |>
+  select(codSubclasse, desc_subclasse, 3:(col_total - 1))
 
-# Colunas 3 a 29: os 27 estados/DF (a última coluna é total Brasil)
-mat <- t(as.matrix(dadosf[, 3:29]))
+# Matriz: municípios (linhas) × subclasses (colunas)
+mat <- t(as.matrix(dadosf[, 3:ncol(dadosf)]))
 
-nomes_estados   <- rownames(mat)
-nomes_subclasse <- dadosf$codSubclasse
+nomes_mun  <- rownames(mat)
+nomes_setor <- dadosf$codSubclasse
+desc_setor  <- dadosf$desc_subclasse
 
-cat(sprintf(
-  "Matriz de emprego: %d estados × %d subclasses CNAE\n",
-  nrow(mat), ncol(mat)
-))
+cat(sprintf("Matriz: %d municípios × %d subclasses CNAE\n", nrow(mat), ncol(mat)))
 ```
 
-```{r geometrias}
-# Geometrias dos estados (IBGE 2020)
-estados_sf <- read_state(year = 2020, showProgress = FALSE) |>
-  left_join(regiao_uf, by = "abbrev_state")
+```{r geometria}
+ms_sf <- readRDS("data/ms_municipios_sf.rds") |>
+  mutate(nome_lower = str_to_lower(name_muni))
 
-regioes_sf <- read_region(year = 2020, showProgress = FALSE)
+# Tabela de normalização de nomes (case insensitive)
+nomes_norm <- tibble(
+  municipio    = nomes_mun,
+  nome_lower   = str_to_lower(nomes_mun)
+)
 ```
-
----
 
 # Cálculo dos indicadores
 
@@ -133,131 +110,109 @@ pr  <- PR(mat)
 ihh <- IHH(mat)
 ```
 
-```{r icn-calcular, cache=TRUE}
-icn <- ICN(nomes_estados, ql, ihh, pr)
+```{r icn, cache=TRUE}
+icn <- ICN(nomes_mun, ql, ihh, pr)
 ```
 
 ```{r formatos-longos}
 ql_long <- as.data.frame(ql) |>
-  mutate(estado = nomes_estados) |>
-  pivot_longer(-estado, names_to = "idx", values_to = "QL") |>
-  mutate(subclasse = nomes_subclasse[as.integer(idx)])
+  mutate(municipio = nomes_mun) |>
+  pivot_longer(-municipio, names_to = "idx", values_to = "QL") |>
+  mutate(
+    setor = desc_setor[as.integer(idx)],
+    cod   = nomes_setor[as.integer(idx)]
+  )
 
 pr_long <- as.data.frame(pr) |>
-  mutate(estado = nomes_estados) |>
-  pivot_longer(-estado, names_to = "idx", values_to = "PR") |>
-  mutate(subclasse = nomes_subclasse[as.integer(idx)])
+  mutate(municipio = nomes_mun) |>
+  pivot_longer(-municipio, names_to = "idx", values_to = "PR") |>
+  mutate(setor = desc_setor[as.integer(idx)])
 
 ihh_long <- as.data.frame(ihh) |>
-  mutate(estado = nomes_estados) |>
-  pivot_longer(-estado, names_to = "idx", values_to = "IHH") |>
-  mutate(subclasse = nomes_subclasse[as.integer(idx)])
+  mutate(municipio = nomes_mun) |>
+  pivot_longer(-municipio, names_to = "idx", values_to = "IHH") |>
+  mutate(setor = desc_setor[as.integer(idx)])
 
 icn_long <- icn |>
   pivot_longer(-regiao, names_to = "idx", values_to = "ICN") |>
-  mutate(
-    subclasse = nomes_subclasse[as.integer(idx)],
-    estado    = regiao
-  )
+  rename(municipio = regiao) |>
+  mutate(setor = desc_setor[as.integer(idx)])
 
-# Resumos por estado
-resumo_estado <- ql_long |>
-  group_by(estado) |>
+# Resumo por município
+resumo <- ql_long |>
+  group_by(municipio) |>
   summarise(
-    ql_medio     = mean(QL),
-    n_spec       = sum(QL > 1),
-    ql_max       = max(QL),
+    emprego_total = sum(mat[municipio[1], ], na.rm = TRUE),
+    ql_medio      = mean(QL),
+    n_spec        = sum(QL > 1),
+    ql_max        = max(QL),
+    setor_lider   = setor[which.max(QL)],
     .groups = "drop"
   ) |>
   left_join(
-    ihh_long |> group_by(estado) |>
+    ihh_long |> group_by(municipio) |>
       summarise(ihh_medio = mean(abs(IHH)), .groups = "drop"),
-    by = "estado"
+    by = "municipio"
   ) |>
   left_join(
-    icn_long |> group_by(estado) |>
+    icn_long |> group_by(municipio) |>
       summarise(icn_medio = mean(ICN, na.rm = TRUE), .groups = "drop"),
-    by = "estado"
-  ) |>
-  left_join(regiao_uf, by = c("estado" = "abbrev_state"))
+    by = "municipio"
+  )
+
+# Juntar com geometria
+ms_resumo <- ms_sf |>
+  left_join(nomes_norm, by = "nome_lower") |>
+  left_join(resumo, by = "municipio")
 ```
 
 ---
 
-# Panorama nacional
+# Panorama — emprego agropecuário formal em MS
 
-## Emprego formal por grande região
+## Top 15 municípios por emprego total
 
-```{r empregos-regiao, fig.height=5}
-emprego_uf <- tibble(
-  estado = nomes_estados,
-  total  = rowSums(mat)
-) |>
-  left_join(regiao_uf, by = c("estado" = "abbrev_state"))
+```{r top15-emprego, fig.height=5}
+emprego_mun <- tibble(
+  municipio = nomes_mun,
+  total     = rowSums(mat)
+)
 
-emprego_regiao <- emprego_uf |>
-  group_by(grande_regiao) |>
-  summarise(total = sum(total), .groups = "drop") |>
-  mutate(
-    pct   = total / sum(total),
-    label = paste0(grande_regiao, "\n", percent(pct, accuracy = 0.1))
-  )
-
-p_pizza <- ggplot(emprego_regiao, aes(x = "", y = total, fill = grande_regiao)) +
-  geom_col(width = 1, color = "white", linewidth = 0.5) +
-  coord_polar("y") +
-  scale_fill_manual(values = cores_regioes) +
-  geom_text(aes(label = label),
-            position = position_stack(vjust = 0.5),
-            size = 3.5, fontface = "bold", color = "white") +
-  labs(
-    title   = "Participação das grandes regiões no emprego formal",
-    caption = "Fonte: RAIS 2020."
-  ) +
-  theme_void() +
-  theme(legend.position = "none", plot.title = element_text(face = "bold", hjust = 0.5))
-
-p_barras <- emprego_uf |>
-  arrange(desc(total)) |>
-  mutate(estado = fct_reorder(estado, total)) |>
-  ggplot(aes(x = estado, y = total / 1e6, fill = grande_regiao)) +
-  geom_col() +
-  scale_fill_manual(values = cores_regioes, name = "Região") +
-  scale_y_continuous(labels = label_number(suffix = " M")) +
+emprego_mun |>
+  slice_max(total, n = 15) |>
+  mutate(municipio = fct_reorder(municipio, total)) |>
+  ggplot(aes(x = municipio, y = total)) +
+  geom_col(fill = "#1565C0") +
+  scale_y_continuous(labels = label_number(big.mark = "."),
+                     expand = expansion(mult = c(0, .05))) +
   coord_flip() +
   labs(
-    title   = "Empregos formais por estado",
-    x = NULL, y = "Vínculos (milhões)",
-    caption = "Fonte: RAIS 2020."
+    title   = "Top 15 municípios por emprego agropecuário formal",
+    x = NULL, y = "Vínculos formais",
+    caption = "Fonte: RAIS. MS."
   ) +
-  theme_minimal(base_size = 11) +
-  theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(face = "bold"))
 
-p_pizza + p_barras +
-  plot_layout(widths = c(1, 1.6)) +
-  plot_annotation(title = "Emprego Formal no Brasil — RAIS 2020",
-                  theme = theme(plot.title = element_text(face = "bold", size = 14)))
-
-salvar("01_emprego_regioes", w = 12, h = 6)
+salvar("01_top15_emprego", w = 10, h = 5)
 ```
 
-## Mapa: emprego formal total
+## Mapa: emprego agropecuário total
 
 ```{r mapa-emprego, fig.height=7}
-estados_sf |>
-  left_join(emprego_uf, by = c("abbrev_state" = "estado")) |>
+ms_resumo |>
+  left_join(emprego_mun, by = "municipio") |>
   ggplot() +
-  geom_sf(aes(fill = total / 1e6), color = "white", linewidth = 0.3) +
-  geom_sf_text(aes(label = abbrev_state), size = 2.5, color = "white", fontface = "bold") +
+  geom_sf(aes(fill = total), color = "white", linewidth = 0.2) +
   scale_fill_viridis_c(
-    name   = "Vínculos\n(milhões)",
+    name   = "Vínculos",
     option = "plasma",
-    labels = label_number(suffix = " M"),
-    na.value = "grey80"
+    labels = label_number(big.mark = "."),
+    na.value = "grey85"
   ) +
   labs(
-    title   = "Emprego formal total por estado — RAIS 2020",
-    caption = "Fonte: RAIS/MTE. Geometria: geobr/IBGE 2020."
+    title   = "Emprego agropecuário formal — Municípios de MS",
+    caption = "Fonte: RAIS. Geometria: geobr/IBGE 2020."
   ) +
   theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", hjust = 0.5))
@@ -269,26 +224,24 @@ salvar("02_mapa_emprego", w = 10, h = 7)
 
 # Quociente Locacional (QL)
 
-> $QL_{ki} = \dfrac{E_{ki}/E_i}{E_k/E}$ &emsp; Valor > 1 indica especialização relativa no setor.
+> $QL_{ki} = \dfrac{E_{ki}/E_i}{E_k/E}$ — QL > 1: município especializado no setor em relação ao estado.
 
-## Mapa: QL médio por estado
+## Mapa: QL médio por município
 
 ```{r mapa-ql-medio, fig.height=7}
-estados_sf |>
-  left_join(resumo_estado, by = c("abbrev_state" = "estado")) |>
+ms_resumo |>
   ggplot() +
-  geom_sf(aes(fill = ql_medio), color = "white", linewidth = 0.3) +
-  geom_sf_text(aes(label = abbrev_state), size = 2.5, color = "white", fontface = "bold") +
+  geom_sf(aes(fill = ql_medio), color = "white", linewidth = 0.2) +
   scale_fill_viridis_c(
     name = "QL médio",
     option = "mako",
     direction = -1,
-    na.value = "grey80"
+    na.value = "grey85"
   ) +
   labs(
-    title   = "Quociente Locacional médio por estado",
-    subtitle = "Média sobre todas as subclasses CNAE",
-    caption  = "Fonte: RAIS 2020."
+    title   = "Quociente Locacional médio por município",
+    subtitle = "Média sobre todas as subclasses agropecuárias",
+    caption  = "Fonte: RAIS. Geometria: geobr/IBGE 2020."
   ) +
   theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", hjust = 0.5))
@@ -296,23 +249,21 @@ estados_sf |>
 salvar("03_mapa_ql_medio", w = 10, h = 7)
 ```
 
-## Mapa: número de setores com QL > 1
+## Mapa: número de subclasses com QL > 1
 
 ```{r mapa-n-setores, fig.height=7}
-estados_sf |>
-  left_join(resumo_estado, by = c("abbrev_state" = "estado")) |>
+ms_resumo |>
   ggplot() +
-  geom_sf(aes(fill = n_spec), color = "white", linewidth = 0.3) +
-  geom_sf_text(aes(label = abbrev_state), size = 2.5, color = "white", fontface = "bold") +
+  geom_sf(aes(fill = n_spec), color = "white", linewidth = 0.2) +
   scale_fill_viridis_c(
-    name = "Nº setores\nQL > 1",
+    name = "Nº subclasses\nQL > 1",
     option = "turbo",
-    na.value = "grey80"
+    na.value = "grey85"
   ) +
   labs(
-    title   = "Número de subclasses com QL > 1 por estado",
-    subtitle = "Indica diversificação da estrutura produtiva especializada",
-    caption  = "Fonte: RAIS 2020."
+    title   = "Número de subclasses com QL > 1 por município",
+    subtitle = "Diversificação da especialização agropecuária",
+    caption  = "Fonte: RAIS. Geometria: geobr/IBGE 2020."
   ) +
   theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", hjust = 0.5))
@@ -320,200 +271,140 @@ estados_sf |>
 salvar("04_mapa_n_setores", w = 10, h = 7)
 ```
 
-## QL médio por grande região
-
-```{r ql-regiao, fig.height=5}
-ql_long |>
-  left_join(regiao_uf, by = c("estado" = "abbrev_state")) |>
-  group_by(grande_regiao, estado) |>
-  summarise(ql_medio = mean(QL), .groups = "drop") |>
-  mutate(estado = fct_reorder(estado, ql_medio)) |>
-  ggplot(aes(x = estado, y = ql_medio, fill = grande_regiao)) +
-  geom_col() +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "black", linewidth = 0.7) +
-  scale_fill_manual(values = cores_regioes, name = "Região") +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
-  coord_flip() +
-  labs(
-    title   = "QL médio por estado, por grande região",
-    subtitle = "Linha tracejada = QL = 1 (média nacional)",
-    x = NULL, y = "QL médio",
-    caption = "Fonte: RAIS 2020."
-  ) +
-  theme_minimal(base_size = 11) +
-  theme(
-    plot.title  = element_text(face = "bold"),
-    legend.position = "bottom"
-  )
-
-salvar("05_ql_por_regiao", w = 10, h = 6)
-```
-
-## Top 10 subclasses mais especializadas (QL máximo entre estados)
+## Top 10 subclasses mais especializadas (maior QL máximo)
 
 ```{r ql-top10}
 ql_long |>
-  group_by(subclasse) |>
+  group_by(setor) |>
   summarise(
-    ql_max   = max(QL),
-    estado   = estado[which.max(QL)],
-    .groups  = "drop"
+    ql_max    = max(QL),
+    municipio = municipio[which.max(QL)],
+    .groups   = "drop"
   ) |>
-  arrange(desc(ql_max)) |>
-  slice_head(n = 10) |>
+  slice_max(ql_max, n = 10) |>
   mutate(ql_max = round(ql_max, 2)) |>
-  rename(Subclasse = subclasse, `QL máximo` = ql_max, `Estado` = estado) |>
-  kable(caption = "Top 10 subclasses com maior QL em algum estado") |>
+  rename(`Subclasse` = setor, `QL máximo` = ql_max, `Município` = municipio) |>
+  kable(caption = "Top 10 subclasses com maior QL em algum município de MS") |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
                 full_width = FALSE)
 ```
 
----
+## Ranking: QL médio por município
 
-# Investigação por estado
-
-## Painel: top 5 setores com maior QL por estado
-
-```{r painel-ql, fig.height=18, fig.width=12}
-top5_por_estado <- ql_long |>
-  group_by(estado) |>
-  slice_max(QL, n = 5) |>
-  ungroup() |>
-  left_join(regiao_uf, by = c("estado" = "abbrev_state")) |>
-  mutate(
-    subclasse_curta = str_trunc(as.character(subclasse), 20, ellipsis = "…"),
-    estado = factor(estado)
-  )
-
-ggplot(top5_por_estado,
-       aes(x = reorder_within(subclasse_curta, QL, estado), y = QL,
-           fill = grande_regiao)) +
-  geom_col() +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "grey40", linewidth = 0.5) +
-  scale_x_reordered() +
-  scale_fill_manual(values = cores_regioes, name = "Região") +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+```{r ranking-ql, fig.height=8}
+resumo |>
+  slice_max(ql_medio, n = 20) |>
+  mutate(municipio = fct_reorder(municipio, ql_medio)) |>
+  ggplot(aes(x = municipio, y = ql_medio)) +
+  geom_col(fill = "#00796B") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red", linewidth = 0.7) +
+  scale_y_continuous(expand = expansion(mult = c(0, .05))) +
   coord_flip() +
-  facet_wrap(~ estado, scales = "free_y", ncol = 4) +
   labs(
-    title   = "Top 5 subclasses CNAE com maior QL por estado",
-    subtitle = "Linha tracejada = QL = 1",
-    x = NULL, y = "Quociente Locacional",
-    caption = "Fonte: RAIS 2020."
+    title   = "Top 20 municípios por QL médio",
+    subtitle = "Linha vermelha = QL = 1 (média estadual)",
+    x = NULL, y = "QL médio",
+    caption = "Fonte: RAIS."
   ) +
-  theme_minimal(base_size = 9) +
-  theme(
-    plot.title      = element_text(face = "bold", size = 13),
-    legend.position = "bottom",
-    strip.text      = element_text(face = "bold"),
-    axis.text.x     = element_text(size = 7)
-  )
+  theme_minimal(base_size = 11) +
+  theme(plot.title = element_text(face = "bold"))
 
-salvar("06_painel_top5_setores", w = 14, h = 20)
+salvar("05_ranking_ql", w = 10, h = 7)
 ```
 
-## Dispersão: QL médio × diversificação
+## Dispersão: QL médio × número de subclasses especializadas
 
-```{r scatter-ql, fig.height=6}
-resumo_estado |>
-  ggplot(aes(x = n_spec, y = ql_medio, color = grande_regiao, label = estado)) +
-  geom_point(size = 4, alpha = 0.85) +
-  geom_text_repel(size = 3, fontface = "bold", max.overlaps = 20) +
-  scale_color_manual(values = cores_regioes, name = "Região") +
+```{r scatter-ql, fig.height=6.5}
+resumo |>
+  ggplot(aes(x = n_spec, y = ql_medio, label = municipio)) +
+  geom_point(aes(size = rowSums(mat)), alpha = 0.7, color = "#1565C0") +
+  geom_text_repel(size = 2.5, max.overlaps = 15) +
+  scale_size_continuous(name = "Emprego total", labels = label_number(big.mark = ".")) +
   labs(
-    title   = "Especialização média vs. número de setores especializados",
-    subtitle = "Cada ponto é um estado; eixo X = diversidade, eixo Y = intensidade média",
+    title   = "QL médio × diversificação por município",
+    subtitle = "Tamanho do ponto = emprego agropecuário total",
     x = "Nº de subclasses com QL > 1",
-    y = "QL médio (sobre todos os setores)",
-    caption = "Fonte: RAIS 2020."
+    y = "QL médio",
+    caption = "Fonte: RAIS."
   ) +
-  theme_minimal(base_size = 12) +
-  theme(
-    plot.title      = element_text(face = "bold"),
-    legend.position = "bottom"
-  )
+  theme_minimal(base_size = 11) +
+  theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
 
-salvar("07_scatter_ql_diversificacao", w = 10, h = 6.5)
+salvar("06_scatter_ql", w = 10, h = 6.5)
 ```
 
 ---
 
 # Índice Hirschman-Herfindahl (IHH)
 
-> $IHH_{ki} = \dfrac{E_{ki}}{E_k} - \dfrac{E_i}{E}$ &emsp; Mede o desvio da participação do setor em relação ao perfil regional geral.
+> $IHH_{ki} = \dfrac{E_{ki}}{E_k} - \dfrac{E_i}{E}$ — Desvio da participação do município em relação ao seu peso no emprego estadual.
 
-## Mapa: IHH médio (em módulo) por estado
+## Mapa: |IHH| médio por município
 
 ```{r mapa-ihh, fig.height=7}
-estados_sf |>
-  left_join(resumo_estado, by = c("abbrev_state" = "estado")) |>
+ms_resumo |>
   ggplot() +
-  geom_sf(aes(fill = ihh_medio), color = "white", linewidth = 0.3) +
-  geom_sf_text(aes(label = abbrev_state), size = 2.5, color = "white", fontface = "bold") +
+  geom_sf(aes(fill = ihh_medio), color = "white", linewidth = 0.2) +
   scale_fill_distiller(
-    name   = "|IHH| médio",
+    name    = "|IHH| médio",
     palette = "YlOrRd",
     direction = 1,
-    na.value = "grey80"
+    na.value = "grey85"
   ) +
   labs(
-    title   = "IHH médio (em módulo) por estado",
-    subtitle = "Valores maiores indicam maior desvio em relação ao perfil nacional",
-    caption  = "Fonte: RAIS 2020."
+    title   = "IHH médio (em módulo) por município",
+    subtitle = "Valores maiores = maior desvio em relação ao perfil estadual",
+    caption  = "Fonte: RAIS. Geometria: geobr/IBGE 2020."
   ) +
   theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", hjust = 0.5))
 
-salvar("08_mapa_ihh", w = 10, h = 7)
+salvar("07_mapa_ihh", w = 10, h = 7)
 ```
 
 ## Top 15 subclasses com maior concentração espacial
 
 ```{r ihh-top15, fig.height=5}
 ihh_long |>
-  group_by(subclasse) |>
-  summarise(ihh_total = sum(IHH^2), .groups = "drop") |>
-  slice_max(ihh_total, n = 15) |>
-  mutate(subclasse = fct_reorder(as.character(subclasse), ihh_total)) |>
-  ggplot(aes(x = subclasse, y = ihh_total)) +
-  geom_col(fill = "#E53935") +
+  group_by(setor) |>
+  summarise(ihh_acum = sum(IHH^2), .groups = "drop") |>
+  slice_max(ihh_acum, n = 15) |>
+  mutate(setor = fct_reorder(str_trunc(setor, 45), ihh_acum)) |>
+  ggplot(aes(x = setor, y = ihh_acum)) +
+  geom_col(fill = "#C62828") +
   coord_flip() +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  scale_y_continuous(expand = expansion(mult = c(0, .05))) +
   labs(
     title   = "Top 15 subclasses com maior concentração espacial (IHH)",
-    subtitle = "IHH acumulado = Σ_i IHH²_ki",
+    subtitle = expression(IHH~acumulado == sum(IHH[ki]^2, i)),
     x = NULL, y = "IHH acumulado",
-    caption = "Fonte: RAIS 2020."
+    caption = "Fonte: RAIS."
   ) +
   theme_minimal(base_size = 11) +
   theme(plot.title = element_text(face = "bold"))
 
-salvar("09_ihh_top15", w = 10, h = 5.5)
+salvar("08_ihh_top15", w = 11, h = 5.5)
 ```
 
 ---
 
 # Participação Relativa (PR)
 
-> $PR_{ki} = \dfrac{E_{ki}}{E_k}$ &emsp; Participação de cada estado no total nacional do setor.
+> $PR_{ki} = E_{ki}/E_k$ — Participação do município no total estadual do setor.
 
-## Heatmap: PR das 20 maiores subclasses × estado
+## Heatmap: PR dos 10 setores mais empregadores × municípios com maior emprego
 
-```{r heatmap-pr, fig.height=8, fig.width=12}
-# Selecionar as 20 subclasses com maior emprego total
-top20_setores <- colSums(mat) |>
-  sort(decreasing = TRUE) |>
-  head(20) |>
-  names()
+```{r heatmap-pr, fig.height=7, fig.width=13}
+top10_setores <- colSums(mat) |> sort(decreasing = TRUE) |> head(10) |> names()
+top20_mun     <- rowSums(mat) |> sort(decreasing = TRUE) |> head(20) |> names()
 
-pr_heat <- pr_long |>
-  filter(idx %in% top20_setores) |>
+pr_long |>
+  filter(idx %in% top10_setores, municipio %in% top20_mun) |>
   mutate(
-    subclasse = str_trunc(as.character(subclasse), 28, ellipsis = "…"),
-    estado    = factor(estado)
-  )
-
-ggplot(pr_heat, aes(x = estado, y = subclasse, fill = PR)) +
+    setor     = str_trunc(setor, 35, ellipsis = "…"),
+    municipio = factor(municipio, levels = rev(top20_mun))
+  ) |>
+  ggplot(aes(x = setor, y = municipio, fill = PR)) +
   geom_tile(color = "white", linewidth = 0.3) +
   scale_fill_distiller(
     palette   = "Blues",
@@ -522,193 +413,178 @@ ggplot(pr_heat, aes(x = estado, y = subclasse, fill = PR)) +
     labels    = percent_format(accuracy = 1)
   ) +
   labs(
-    title   = "Participação Relativa (PR) — 20 maiores subclasses por estado",
-    subtitle = "Cor mais escura = maior participação do estado no setor nacional",
+    title   = "Participação Relativa (PR) — 10 maiores subclasses × 20 maiores municípios",
+    subtitle = "Cor mais escura = maior participação do município no setor estadual",
     x = NULL, y = NULL,
-    caption = "Fonte: RAIS 2020."
+    caption = "Fonte: RAIS."
   ) +
   theme_minimal(base_size = 10) +
   theme(
-    axis.text.x  = element_text(angle = 45, hjust = 1, face = "bold"),
-    axis.text.y  = element_text(size = 8),
+    axis.text.x  = element_text(angle = 40, hjust = 1),
     plot.title   = element_text(face = "bold"),
     legend.position = "right"
   )
 
-salvar("10_heatmap_pr", w = 13, h = 9)
+salvar("09_heatmap_pr", w = 13, h = 7)
 ```
 
 ---
 
 # ICN — Índice de Concentração Normalizada
 
-> Combina QL, IHH e PR via ACP com rotação Varimax. O peso de cada componente
-> é dado pela proporção da variância explicada por cada fator.
+> Combina QL, PR e IHH via ACP com rotação Varimax. O peso de cada componente é a proporção da variância explicada por ele.
 
-## Mapa: ICN médio por estado
+## Mapa: ICN médio por município
 
-```{r mapa-icn, fig.height=7}
-estados_sf |>
-  left_join(resumo_estado, by = c("abbrev_state" = "estado")) |>
+```{r mapa-icn-medio, fig.height=7}
+ms_resumo |>
   ggplot() +
-  geom_sf(aes(fill = icn_medio), color = "white", linewidth = 0.3) +
-  geom_sf_text(aes(label = abbrev_state), size = 2.5, color = "white", fontface = "bold") +
+  geom_sf(aes(fill = icn_medio), color = "white", linewidth = 0.2) +
   scale_fill_viridis_c(
     name      = "ICN médio",
     option    = "inferno",
     direction = -1,
-    na.value  = "grey80"
+    na.value  = "grey85"
   ) +
   labs(
-    title   = "Índice de Concentração Normalizada (ICN) médio por estado",
-    subtitle = "Média sobre todas as subclasses CNAE",
-    caption  = "Metodologia: Monasterio (2011), Cap. 10. Fonte: RAIS 2020."
+    title   = "Índice de Concentração Normalizada (ICN) médio por município",
+    subtitle = "Síntese de QL, PR e IHH via ACP — metodologia Monasterio (2011)",
+    caption  = "Fonte: RAIS. Geometria: geobr/IBGE 2020."
   ) +
   theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", hjust = 0.5))
 
-salvar("11_mapa_icn_medio", w = 10, h = 7)
+salvar("10_mapa_icn_medio", w = 10, h = 7)
 ```
 
-## Mapa: ICN máximo por estado (melhor setor)
+## Mapa: setor líder por município (maior ICN)
 
-```{r mapa-icn-max, fig.height=7}
-icn_max_estado <- icn_long |>
-  group_by(estado) |>
-  summarise(icn_max = max(ICN, na.rm = TRUE),
-            setor_lider = subclasse[which.max(ICN)],
-            .groups = "drop")
-
-estados_sf |>
-  left_join(icn_max_estado, by = c("abbrev_state" = "estado")) |>
+```{r mapa-setor-lider, fig.height=7}
+ms_resumo |>
   ggplot() +
-  geom_sf(aes(fill = icn_max), color = "white", linewidth = 0.3) +
-  geom_sf_text(aes(label = abbrev_state), size = 2.5, color = "white", fontface = "bold") +
+  geom_sf(aes(fill = icn_medio), color = "white", linewidth = 0.2) +
   scale_fill_distiller(
-    name      = "ICN máximo",
-    palette   = "Spectral",
+    name    = "ICN médio",
+    palette = "Spectral",
     direction = -1,
-    na.value  = "grey80"
+    na.value = "grey85"
   ) +
   labs(
-    title   = "ICN máximo por estado (setor mais concentrado)",
-    caption = "Fonte: RAIS 2020."
+    title   = "ICN médio — visão Spectral por município",
+    caption = "Fonte: RAIS. Geometria: geobr/IBGE 2020."
   ) +
   theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", hjust = 0.5))
 
-salvar("12_mapa_icn_max", w = 10, h = 7)
+salvar("11_mapa_icn_spectral", w = 10, h = 7)
 ```
 
-## Ranking dos estados por ICN médio
+## Ranking: top 20 municípios por ICN médio
 
-```{r icn-ranking, fig.height=6}
-resumo_estado |>
-  mutate(estado = fct_reorder(estado, icn_medio)) |>
-  ggplot(aes(x = estado, y = icn_medio, fill = grande_regiao)) +
-  geom_col() +
-  scale_fill_manual(values = cores_regioes, name = "Região") +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+```{r ranking-icn, fig.height=7}
+resumo |>
+  slice_max(icn_medio, n = 20) |>
+  mutate(municipio = fct_reorder(municipio, icn_medio)) |>
+  ggplot(aes(x = municipio, y = icn_medio)) +
+  geom_col(fill = "#6A1B9A") +
   coord_flip() +
+  scale_y_continuous(expand = expansion(mult = c(0, .05))) +
   labs(
-    title   = "Ranking dos estados por ICN médio",
+    title   = "Top 20 municípios por ICN médio",
     x = NULL, y = "ICN médio",
-    caption = "Fonte: RAIS 2020."
+    caption = "Fonte: RAIS."
   ) +
   theme_minimal(base_size = 11) +
-  theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
+  theme(plot.title = element_text(face = "bold"))
 
-salvar("13_ranking_icn", w = 10, h = 6.5)
+salvar("12_ranking_icn", w = 10, h = 7)
 ```
 
-## Tabela-resumo: todos os indicadores por estado
+## Tabela-resumo: todos os indicadores por município
 
 ```{r tabela-resumo}
-resumo_estado |>
+resumo |>
   arrange(desc(icn_medio)) |>
   mutate(across(where(is.numeric), ~ round(.x, 3))) |>
-  rename(
-    Estado         = estado,
-    `Grande Região`= grande_regiao,
-    `QL médio`     = ql_medio,
-    `Setores QL>1` = n_spec,
-    `QL máximo`    = ql_max,
-    `|IHH| médio`  = ihh_medio,
-    `ICN médio`    = icn_medio
+  select(
+    Município   = municipio,
+    `Empregos`  = emprego_total,
+    `QL médio`  = ql_medio,
+    `QL > 1`    = n_spec,
+    `QL máx`    = ql_max,
+    `Setor líder` = setor_lider,
+    `|IHH| médio` = ihh_medio,
+    `ICN médio` = icn_medio
   ) |>
-  kable(caption = "Resumo dos indicadores regionais por estado — RAIS 2020") |>
+  kable(caption = "Resumo dos indicadores por município — MS") |>
   kable_styling(
     bootstrap_options = c("striped", "hover", "condensed", "responsive"),
     full_width = TRUE
   ) |>
-  column_spec(7, bold = TRUE, background = "#FFF9C4")
+  column_spec(8, bold = TRUE, background = "#EDE7F6")
 ```
 
 ---
 
-# Análise comparativa entre indicadores
+# Análise comparativa
 
 ## Dispersão: ICN médio × QL médio
 
-```{r scatter-icn-ql, fig.height=6}
-resumo_estado |>
-  ggplot(aes(x = ql_medio, y = icn_medio,
-             color = grande_regiao, label = estado)) +
-  geom_point(size = 4, alpha = 0.85) +
-  geom_smooth(method = "lm", se = TRUE, color = "grey50",
+```{r scatter-icn-ql, fig.height=6.5}
+resumo |>
+  ggplot(aes(x = ql_medio, y = icn_medio, label = municipio)) +
+  geom_point(aes(size = rowSums(mat)), alpha = 0.7, color = "#AD1457") +
+  geom_smooth(method = "lm", se = TRUE, color = "grey40",
               linetype = "dashed", linewidth = 0.7, alpha = 0.15) +
-  geom_text_repel(size = 3, fontface = "bold", max.overlaps = 20) +
-  scale_color_manual(values = cores_regioes, name = "Região") +
+  geom_text_repel(size = 2.5, max.overlaps = 15) +
+  scale_size_continuous(name = "Emprego total", labels = label_number(big.mark = "."),
+                        guide = "none") +
   labs(
-    title   = "Correlação entre ICN médio e QL médio por estado",
-    x = "QL médio",
-    y = "ICN médio",
-    caption = "Fonte: RAIS 2020."
+    title   = "Correlação entre ICN médio e QL médio por município",
+    x = "QL médio", y = "ICN médio",
+    caption = "Fonte: RAIS."
   ) +
-  theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(face = "bold"), legend.position = "bottom")
+  theme_minimal(base_size = 11) +
+  theme(plot.title = element_text(face = "bold"))
 
-salvar("14_scatter_icn_ql", w = 10, h = 6.5)
+salvar("13_scatter_icn_ql", w = 10, h = 6.5)
 ```
 
-## Boxplot dos indicadores por grande região
+## Painel: top 5 subclasses por QL nos 12 maiores municípios
 
-```{r boxplot-regiao, fig.height=7}
-p1 <- resumo_estado |>
-  ggplot(aes(x = grande_regiao, y = ql_medio, fill = grande_regiao)) +
-  geom_boxplot(alpha = 0.7, outlier.shape = 21) +
-  geom_jitter(width = 0.1, size = 2, alpha = 0.6) +
-  scale_fill_manual(values = cores_regioes) +
-  labs(title = "QL médio", x = NULL, y = NULL) +
-  theme_minimal(base_size = 10) +
-  theme(legend.position = "none", axis.text.x = element_text(angle = 20, hjust = 1))
+```{r painel-top5, fig.height=10, fig.width=13}
+top12_mun <- rowSums(mat) |> sort(decreasing = TRUE) |> head(12) |> names()
 
-p2 <- resumo_estado |>
-  ggplot(aes(x = grande_regiao, y = ihh_medio, fill = grande_regiao)) +
-  geom_boxplot(alpha = 0.7, outlier.shape = 21) +
-  geom_jitter(width = 0.1, size = 2, alpha = 0.6) +
-  scale_fill_manual(values = cores_regioes) +
-  labs(title = "|IHH| médio", x = NULL, y = NULL) +
-  theme_minimal(base_size = 10) +
-  theme(legend.position = "none", axis.text.x = element_text(angle = 20, hjust = 1))
-
-p3 <- resumo_estado |>
-  ggplot(aes(x = grande_regiao, y = icn_medio, fill = grande_regiao)) +
-  geom_boxplot(alpha = 0.7, outlier.shape = 21) +
-  geom_jitter(width = 0.1, size = 2, alpha = 0.6) +
-  scale_fill_manual(values = cores_regioes) +
-  labs(title = "ICN médio", x = NULL, y = NULL) +
-  theme_minimal(base_size = 10) +
-  theme(legend.position = "none", axis.text.x = element_text(angle = 20, hjust = 1))
-
-(p1 | p2 | p3) +
-  plot_annotation(
-    title   = "Distribuição dos indicadores regionais por grande região",
-    caption = "Fonte: RAIS 2020.",
-    theme   = theme(plot.title = element_text(face = "bold", size = 13))
+ql_long |>
+  filter(municipio %in% top12_mun) |>
+  group_by(municipio) |>
+  slice_max(QL, n = 5) |>
+  ungroup() |>
+  mutate(
+    setor_curto = str_trunc(setor, 30, ellipsis = "…"),
+    municipio   = factor(municipio, levels = top12_mun),
+    setor_ord   = reorder(paste(municipio, setor_curto, sep = "__"), QL)
+  ) |>
+  ggplot(aes(x = setor_ord, y = QL)) +
+  geom_col(fill = "#0277BD") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red", linewidth = 0.5) +
+  scale_x_discrete(labels = function(x) sub("^[^_]+__", "", x)) +
+  coord_flip() +
+  facet_wrap(~ municipio, scales = "free_y", ncol = 3) +
+  labs(
+    title   = "Top 5 subclasses CNAE por QL — 12 maiores municípios de MS",
+    subtitle = "Linha vermelha = QL = 1",
+    x = NULL, y = "Quociente Locacional",
+    caption = "Fonte: RAIS."
+  ) +
+  theme_minimal(base_size = 9) +
+  theme(
+    plot.title  = element_text(face = "bold", size = 12),
+    strip.text  = element_text(face = "bold"),
+    axis.text.x = element_text(size = 7)
   )
 
-salvar("15_boxplot_regioes", w = 13, h = 7)
+salvar("14_painel_top5", w = 13, h = 10)
 ```
 
 ---
@@ -720,8 +596,7 @@ write_xlsx(as.data.frame(ql),  "output/QL.xlsx")
 write_xlsx(as.data.frame(pr),  "output/PR.xlsx")
 write_xlsx(as.data.frame(ihh), "output/IHH.xlsx")
 write_xlsx(icn,                "output/ICN_all.xlsx")
-
-cat("Arquivos exportados: QL.xlsx, PR.xlsx, IHH.xlsx, ICN_all.xlsx\n")
+cat("Exportado: output/QL.xlsx, PR.xlsx, IHH.xlsx, ICN_all.xlsx\n")
 ```
 
 ---
@@ -733,8 +608,7 @@ MONASTERIO, L. Indicadores de análise regional e espacial. In: CRUZ, B. O.
 no Brasil**. Brasília: Ipea, 2011. Cap. 10, p. 315–331.
 
 PEREIRA, R. H. M. *et al.* **geobr**: Loads Shapefiles of Official Spatial
-Data Sets of Brazil. R package version 1.8.2. Disponível em:
-<https://github.com/ipeaGIT/geobr>.
+Data Sets of Brazil. R package. <https://github.com/ipeaGIT/geobr>.
 
-RAIS. **Relação Anual de Informações Sociais** — 2020. Ministério do Trabalho
-e Emprego. Acesso via [PDET Online](http://pdet.mte.gov.br/).
+RAIS. **Relação Anual de Informações Sociais**. Ministério do Trabalho e
+Emprego. <http://pdet.mte.gov.br/>.
