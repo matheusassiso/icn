@@ -1346,10 +1346,11 @@ const s1  = s => Array.isArray(s) ? s[0] : s;
 })();
 
 // Mapa
-let mapInit=false;
+let leafletMap=null;
 function doMap(){
-  if(mapInit)return; mapInit=true;
-  const map=L.map("map").setView([-20.5,-54.6],6);
+  if(leafletMap){leafletMap.invalidateSize();return;}
+  leafletMap=L.map("map").setView([-20.5,-54.6],6);
+  const map=leafletMap;
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {attribution:"© OpenStreetMap",maxZoom:10}).addTo(map);
   const byMun={}; MUN.forEach(m=>{byMun[m.municipio]=m;});
@@ -1393,16 +1394,23 @@ function doMap(){
 }
 
 // Municípios
-(function(){
+let munDone=false;
+function doMun(){
   const sel=document.getElementById("sel-mun");
-  [...MUN].sort((a,b)=>a.municipio.localeCompare(b.municipio,"pt")).forEach(m=>{
-    sel.innerHTML+=`<option>${m.municipio}</option>`;
-  });
-  function upd(nm){
-    const row=MAT.find(r=>r.municipio===nm);
+  if(!munDone){
+    munDone=true;
+    [...MUN].sort((a,b)=>a.municipio.localeCompare(b.municipio,"pt")).forEach(m=>{
+      sel.innerHTML+=`<option>${m.municipio}</option>`;
+    });
+    sel.addEventListener("change",()=>updMun(sel.value));
+  }
+  updMun(sel.value||sel.options[0]?.value);
+}
+function updMun(nm){
+    const row=MAT.find(r=>s1(r.municipio)===nm);
     const mun=MUN.find(m=>m.municipio===nm);
     if(!row)return;
-    const pairs=SET.map(s=>{const n=s1(s.setor);return{n,v:row[n]||0};})
+    const pairs=SET.map(s=>{const n=s1(s.setor);return{n,v:s1(row[n])||0};})
                    .sort((a,b)=>b.v-a.v);
     Plotly.newPlot("c-mun",[{
       type:"bar",orientation:"h",
@@ -1429,18 +1437,22 @@ function doMap(){
       <p class="mb-0"><small class="text-muted">ICN Máximo</small><br>
         <strong>${fmt(mun?.top_icn)}</strong></p>
       <hr><small class="text-muted">Verde = especializado (ICN>1)<br>Azul = abaixo do limiar</small>`;
-  }
-  sel.addEventListener("change",()=>upd(sel.value));
-  upd(sel.options[0]?.value);
-})();
+}
 
 // Setores
-(function(){
+let setDone=false;
+function doSet(){
   const sel=document.getElementById("sel-set");
-  SET.forEach((s,i)=>{sel.innerHTML+=`<option value="${i}">${s1(s.setor)}</option>`;});
-  function upd(i){
+  if(!setDone){
+    setDone=true;
+    SET.forEach((s,i)=>{sel.innerHTML+=`<option value="${i}">${s1(s.setor)}</option>`;});
+    sel.addEventListener("change",()=>updSet(+sel.value));
+  }
+  updSet(0);
+}
+function updSet(i){
     const s=SET[i], nm=s1(s.setor);
-    const pairs=MAT.map(r=>({mun:r.municipio,v:r[nm]||0})).sort((a,b)=>b.v-a.v).slice(0,30);
+    const pairs=MAT.map(r=>({mun:s1(r.municipio),v:s1(r[nm])||0})).sort((a,b)=>b.v-a.v).slice(0,30);
     Plotly.newPlot("c-set",[{
       type:"bar",orientation:"h",
       x:pairs.map(p=>p.v).reverse(),
@@ -1466,10 +1478,7 @@ function doMap(){
       <p class="mb-0"><small class="text-muted">Especializados</small><br>
         <strong>${s1(s.n_espec)} de 79</strong></p>
       <hr><small class="text-muted"><b>Top 5:</b><br>${(s.top5||[]).join("<br>")}</small>`;
-  }
-  sel.addEventListener("change",()=>upd(+sel.value));
-  upd(0);
-})();
+}
 
 // Tabela
 let tblDone=false;
@@ -1501,9 +1510,12 @@ document.querySelectorAll("[data-t]").forEach(a=>{
       document.getElementById("pg-"+id).style.display=id===t?"":"none";
     });
     if(t==="mapa") doMap();
+    if(t==="mun")  doMun();
+    if(t==="set")  doSet();
     if(t==="tbl")  doTbl();
   });
 });
 </script>
 </body>
 </html>
+
