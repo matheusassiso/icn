@@ -3,6 +3,15 @@
 [![Render & Publish](https://github.com/matheusassiso/icn/actions/workflows/render.yml/badge.svg)](https://github.com/matheusassiso/icn/actions/workflows/render.yml)
 [![Relatório](https://img.shields.io/badge/Relatório-GitHub%20Pages-blue?logo=github)](https://matheusassiso.github.io/icn/)
 
+
+---
+
+## Dashboard Interativo
+
+[![Dashboard ICN](https://img.shields.io/badge/Dashboard-ICN%20Interativo-1a6b3c?style=for-the-badge&logo=html5&logoColor=white)](https://matheusassiso.github.io/icn/icn_dashboard.html)
+
+> [**→ Abrir Dashboard**](https://matheusassiso.github.io/icn/icn_dashboard.html) — mapa coroplético dos 79 municípios, ranking, análise por município e por setor, tabela completa (HTML puro, sem servidor necessário).
+
 Repositório desenvolvido para a disciplina de **Economia Regional e Urbana** (graduação em Economia), com base em:
 
 > MONASTERIO, L. Indicadores de análise regional e espacial. In: CRUZ, B. O. *et al.* (orgs.). **Economia Regional e Urbana: Teorias e métodos com ênfase no Brasil**. Brasília: Ipea, 2011. Cap. 10, p. 315–331.
