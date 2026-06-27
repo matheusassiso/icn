@@ -1,0 +1,792 @@
+[
+  {
+    "municipio": "Água Clara",
+    "icn_medio": 0.2611,
+    "n_especializados": 3,
+    "top_setor": "Produção de Pintos de Um Dia",
+    "top_icn": 8.125,
+    "lon": -52.9273,
+    "lat": -19.9621,
+    "code_muni": 5000203
+  },
+  {
+    "municipio": "Alcinópolis",
+    "icn_medio": 0.936,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Café",
+    "top_icn": 41.525,
+    "lon": -53.7491,
+    "lat": -18.2092,
+    "code_muni": 5000252
+  },
+  {
+    "municipio": "Amambai",
+    "icn_medio": 0.128,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Erva-Mate",
+    "top_icn": 3.274,
+    "lon": -54.9681,
+    "lat": -23.1578,
+    "code_muni": 5000609
+  },
+  {
+    "municipio": "Anastácio",
+    "icn_medio": 0.036,
+    "n_especializados": 0,
+    "top_setor": "Cultivo de Outras Plantas de Lavoura Permanente não Especificadas Anteriormente",
+    "top_icn": 0.681,
+    "lon": -55.7723,
+    "lat": -20.6962,
+    "code_muni": 5000708
+  },
+  {
+    "municipio": "Anaurilândia",
+    "icn_medio": 0.0554,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Mandioca",
+    "top_icn": 1.073,
+    "lon": -52.8048,
+    "lat": -22.1113,
+    "code_muni": 5000807
+  },
+  {
+    "municipio": "Angélica",
+    "icn_medio": 0.054,
+    "n_especializados": 1,
+    "top_setor": "Criação de Frangos para Corte",
+    "top_icn": 1.085,
+    "lon": -53.8659,
+    "lat": -22.0624,
+    "code_muni": 5000856
+  },
+  {
+    "municipio": "Antônio João",
+    "icn_medio": 0.1042,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Mandioca",
+    "top_icn": 1.831,
+    "lon": -55.9696,
+    "lat": -22.2058,
+    "code_muni": 5000906
+  },
+  {
+    "municipio": "Aparecida Do Taboado",
+    "icn_medio": 1.5025,
+    "n_especializados": 6,
+    "top_setor": "Cultivo de Cítricos, Exceto Laranja",
+    "top_icn": 20.108,
+    "lon": -51.2901,
+    "lat": -20.0756,
+    "code_muni": 5001003
+  },
+  {
+    "municipio": "Aquidauana",
+    "icn_medio": 0.3545,
+    "n_especializados": 3,
+    "top_setor": "Cultivo de Coco-Da-Baía",
+    "top_icn": 7.792,
+    "lon": -55.8771,
+    "lat": -19.746,
+    "code_muni": 5001102
+  },
+  {
+    "municipio": "Aral Moreira",
+    "icn_medio": 0.0916,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Outros Cereais não Especificados Anteriormente",
+    "top_icn": 1.963,
+    "lon": -55.4502,
+    "lat": -22.9076,
+    "code_muni": 5001243
+  },
+  {
+    "municipio": "Bandeirantes",
+    "icn_medio": 0.2052,
+    "n_especializados": 3,
+    "top_setor": "Produção de Sementes Certificadas, Exceto de Forrageiras para Pasto",
+    "top_icn": 4.557,
+    "lon": -54.3058,
+    "lat": -19.8056,
+    "code_muni": 5001508
+  },
+  {
+    "municipio": "Bataguassu",
+    "icn_medio": 0.0188,
+    "n_especializados": 0,
+    "top_setor": "Criação de Bovinos para Corte",
+    "top_icn": 0.502,
+    "lon": -52.5724,
+    "lat": -21.8059,
+    "code_muni": 5001904
+  },
+  {
+    "municipio": "Batayporã",
+    "icn_medio": 0.3946,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Outras Fibras de Lavoura Temporária não Especificadas Anteriormente",
+    "top_icn": 13.143,
+    "lon": -53.1776,
+    "lat": -22.3907,
+    "code_muni": 5002001
+  },
+  {
+    "municipio": "Bela Vista",
+    "icn_medio": 0.2801,
+    "n_especializados": 3,
+    "top_setor": "Criação de Ovinos, Inclusive para Produção de Lã",
+    "top_icn": 8.4,
+    "lon": -56.5383,
+    "lat": -21.9345,
+    "code_muni": 5002100
+  },
+  {
+    "municipio": "Bodoquena",
+    "icn_medio": 0.1639,
+    "n_especializados": 2,
+    "top_setor": "Criação de Bufalinos",
+    "top_icn": 5.188,
+    "lon": -56.6994,
+    "lat": -20.5487,
+    "code_muni": 5002159
+  },
+  {
+    "municipio": "Bonito",
+    "icn_medio": 0.1372,
+    "n_especializados": 1,
+    "top_setor": "Apicultura",
+    "top_icn": 4.323,
+    "lon": -56.4826,
+    "lat": -21.033,
+    "code_muni": 5002209
+  },
+  {
+    "municipio": "Brasilândia",
+    "icn_medio": 0.0107,
+    "n_especializados": 0,
+    "top_setor": "Criação de Bovinos para Corte",
+    "top_icn": 0.53,
+    "lon": -52.4348,
+    "lat": -21.0759,
+    "code_muni": 5002308
+  },
+  {
+    "municipio": "Caarapó",
+    "icn_medio": 0.1058,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Cana-De-Açúcar",
+    "top_icn": 3.252,
+    "lon": -54.8027,
+    "lat": -22.5883,
+    "code_muni": 5002407
+  },
+  {
+    "municipio": "Camapuã",
+    "icn_medio": 0.0797,
+    "n_especializados": 1,
+    "top_setor": "Apicultura",
+    "top_icn": 2.23,
+    "lon": -53.8694,
+    "lat": -19.3419,
+    "code_muni": 5002605
+  },
+  {
+    "municipio": "Campo Grande",
+    "icn_medio": 0.8697,
+    "n_especializados": 11,
+    "top_setor": "Criação de EqüInos",
+    "top_icn": 7.316,
+    "lon": -54.2508,
+    "lat": -20.913,
+    "code_muni": 5002704
+  },
+  {
+    "municipio": "Caracol",
+    "icn_medio": 0.1593,
+    "n_especializados": 2,
+    "top_setor": "Criação de Bufalinos",
+    "top_icn": 5.531,
+    "lon": -57.0892,
+    "lat": -21.9406,
+    "code_muni": 5002803
+  },
+  {
+    "municipio": "Cassilândia",
+    "icn_medio": 0.2985,
+    "n_especializados": 3,
+    "top_setor": "Cultivo de Seringueira",
+    "top_icn": 6.509,
+    "lon": -52.1801,
+    "lat": -19.0954,
+    "code_muni": 5002902
+  },
+  {
+    "municipio": "Chapadão Do Sul",
+    "icn_medio": 0.2832,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Algodão Herbáceo",
+    "top_icn": 9.149,
+    "lon": -52.6981,
+    "lat": -18.9943,
+    "code_muni": 5002951
+  },
+  {
+    "municipio": "Corguinho",
+    "icn_medio": 0.0391,
+    "n_especializados": 0,
+    "top_setor": "Criação de Bovinos para Leite",
+    "top_icn": 0.547,
+    "lon": -55.0573,
+    "lat": -19.8075,
+    "code_muni": 5003108
+  },
+  {
+    "municipio": "Coronel Sapucaia",
+    "icn_medio": 0.0912,
+    "n_especializados": 2,
+    "top_setor": "Horticultura, Exceto Morango",
+    "top_icn": 1.34,
+    "lon": -55.3831,
+    "lat": -23.3476,
+    "code_muni": 5003157
+  },
+  {
+    "municipio": "Corumbá",
+    "icn_medio": 0.1529,
+    "n_especializados": 2,
+    "top_setor": "Criação de Animais de Estimação",
+    "top_icn": 4.626,
+    "lon": -56.7177,
+    "lat": -18.7196,
+    "code_muni": 5003207
+  },
+  {
+    "municipio": "Costa Rica",
+    "icn_medio": 0.2443,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Algodão Herbáceo",
+    "top_icn": 8.434,
+    "lon": -53.2031,
+    "lat": -18.5186,
+    "code_muni": 5003256
+  },
+  {
+    "municipio": "Coxim",
+    "icn_medio": 0.021,
+    "n_especializados": 0,
+    "top_setor": "Criação de Bovinos para Corte",
+    "top_icn": 0.468,
+    "lon": -54.6743,
+    "lat": -18.2812,
+    "code_muni": 5003306
+  },
+  {
+    "municipio": "Deodápolis",
+    "icn_medio": 0.1344,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Mandioca",
+    "top_icn": 2.053,
+    "lon": -54.1521,
+    "lat": -22.156,
+    "code_muni": 5003454
+  },
+  {
+    "municipio": "Dois Irmãos Do Buriti",
+    "icn_medio": 1.8244,
+    "n_especializados": 6,
+    "top_setor": "Criação de Outros Galináceos, Exceto para Corte",
+    "top_icn": 29.596,
+    "lon": -55.3626,
+    "lat": -20.6,
+    "code_muni": 5003488
+  },
+  {
+    "municipio": "Douradina",
+    "icn_medio": 0.3958,
+    "n_especializados": 3,
+    "top_setor": "Produção de Ovos",
+    "top_icn": 13.496,
+    "lon": -54.5878,
+    "lat": -22.014,
+    "code_muni": 5003504
+  },
+  {
+    "municipio": "Dourados",
+    "icn_medio": 0.5567,
+    "n_especializados": 7,
+    "top_setor": "Cultivo de Uva",
+    "top_icn": 4.62,
+    "lon": -54.8392,
+    "lat": -22.1451,
+    "code_muni": 5003702
+  },
+  {
+    "municipio": "Eldorado",
+    "icn_medio": 0.5467,
+    "n_especializados": 3,
+    "top_setor": "Cultivo de Café",
+    "top_icn": 10.826,
+    "lon": -54.2251,
+    "lat": -23.7382,
+    "code_muni": 5003751
+  },
+  {
+    "municipio": "Fátima Do Sul",
+    "icn_medio": 0.2358,
+    "n_especializados": 5,
+    "top_setor": "Criação de Frangos para Corte",
+    "top_icn": 2.671,
+    "lon": -54.4397,
+    "lat": -22.3374,
+    "code_muni": 5003801
+  },
+  {
+    "municipio": "Figueirão",
+    "icn_medio": 0.226,
+    "n_especializados": 2,
+    "top_setor": "Apicultura",
+    "top_icn": 7.124,
+    "lon": -53.8622,
+    "lat": -18.7445,
+    "code_muni": 5003900
+  },
+  {
+    "municipio": "Glória De Dourados",
+    "icn_medio": 0.3262,
+    "n_especializados": 4,
+    "top_setor": "Criação de Suínos",
+    "top_icn": 4.479,
+    "lon": -54.1926,
+    "lat": -22.4272,
+    "code_muni": 5004007
+  },
+  {
+    "municipio": "Guia Lopes Da Laguna",
+    "icn_medio": 0.0467,
+    "n_especializados": 1,
+    "top_setor": "Criação de Bovinos, Exceto para Corte e Leite",
+    "top_icn": 1.268,
+    "lon": -55.9962,
+    "lat": -21.5417,
+    "code_muni": 5004106
+  },
+  {
+    "municipio": "Iguatemi",
+    "icn_medio": 0.5148,
+    "n_especializados": 5,
+    "top_setor": "Criação de Aves, Exceto Galináceos",
+    "top_icn": 7.309,
+    "lon": -54.5383,
+    "lat": -23.4341,
+    "code_muni": 5004304
+  },
+  {
+    "municipio": "Inocência",
+    "icn_medio": 0.1886,
+    "n_especializados": 3,
+    "top_setor": "Criação de Bovinos, Exceto para Corte e Leite",
+    "top_icn": 3.483,
+    "lon": -52.022,
+    "lat": -19.6574,
+    "code_muni": 5004403
+  },
+  {
+    "municipio": "Itaporã",
+    "icn_medio": 0.647,
+    "n_especializados": 4,
+    "top_setor": "Criação de Animais de Estimação",
+    "top_icn": 21.472,
+    "lon": -54.8735,
+    "lat": -22.0054,
+    "code_muni": 5004502
+  },
+  {
+    "municipio": "Itaquiraí",
+    "icn_medio": 0.1791,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Outras Plantas de Lavoura Permanente não Especificadas Anteriormente",
+    "top_icn": 3.86,
+    "lon": -54.1192,
+    "lat": -23.3415,
+    "code_muni": 5004601
+  },
+  {
+    "municipio": "Ivinhema",
+    "icn_medio": 0.4193,
+    "n_especializados": 3,
+    "top_setor": "Cultivo de Mandioca",
+    "top_icn": 10.008,
+    "lon": -53.7992,
+    "lat": -22.3715,
+    "code_muni": 5004700
+  },
+  {
+    "municipio": "Japorã",
+    "icn_medio": 0.0496,
+    "n_especializados": 1,
+    "top_setor": "Criação de Bovinos para Leite",
+    "top_icn": 1.19,
+    "lon": -54.5381,
+    "lat": -23.8107,
+    "code_muni": 5004809
+  },
+  {
+    "municipio": "Jaraguari",
+    "icn_medio": -0.0327,
+    "n_especializados": 6,
+    "top_setor": "Criação de Caprinos",
+    "top_icn": 18.841,
+    "lon": -54.3485,
+    "lat": -20.2273,
+    "code_muni": 5004908
+  },
+  {
+    "municipio": "Jardim",
+    "icn_medio": 0.0271,
+    "n_especializados": 0,
+    "top_setor": "Horticultura, Exceto Morango",
+    "top_icn": 0.65,
+    "lon": -56.352,
+    "lat": -21.5821,
+    "code_muni": 5005004
+  },
+  {
+    "municipio": "Jateí",
+    "icn_medio": 0.1733,
+    "n_especializados": 2,
+    "top_setor": "Criação de Suínos",
+    "top_icn": 4.645,
+    "lon": -53.9575,
+    "lat": -22.7068,
+    "code_muni": 5005103
+  },
+  {
+    "municipio": "Juti",
+    "icn_medio": 0.0974,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Outras Plantas de Lavoura Permanente não Especificadas Anteriormente",
+    "top_icn": 1.805,
+    "lon": -54.4888,
+    "lat": -22.7763,
+    "code_muni": 5005152
+  },
+  {
+    "municipio": "Ladário",
+    "icn_medio": 0.0113,
+    "n_especializados": 0,
+    "top_setor": "Criação de Bovinos para Corte",
+    "top_icn": 0.527,
+    "lon": -57.5688,
+    "lat": -19.1031,
+    "code_muni": 5005202
+  },
+  {
+    "municipio": "Laguna Carapã",
+    "icn_medio": 0.1261,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Outros Cereais não Especificados Anteriormente",
+    "top_icn": 3.974,
+    "lon": -55.1321,
+    "lat": -22.6774,
+    "code_muni": 5005251
+  },
+  {
+    "municipio": "Maracaju",
+    "icn_medio": 0.1169,
+    "n_especializados": 3,
+    "top_setor": "Cultivo de Soja",
+    "top_icn": 1.393,
+    "lon": -55.397,
+    "lat": -21.5433,
+    "code_muni": 5005400
+  },
+  {
+    "municipio": "Miranda",
+    "icn_medio": 0.0115,
+    "n_especializados": 0,
+    "top_setor": "Criação de Bovinos para Corte",
+    "top_icn": 0.531,
+    "lon": -56.5966,
+    "lat": -20.1211,
+    "code_muni": 5005608
+  },
+  {
+    "municipio": "Mundo Novo",
+    "icn_medio": 0.3978,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Mandioca",
+    "top_icn": 14.53,
+    "lon": -54.2743,
+    "lat": -23.9427,
+    "code_muni": 5005681
+  },
+  {
+    "municipio": "Naviraí",
+    "icn_medio": 0.2741,
+    "n_especializados": 2,
+    "top_setor": "Criação de Asininos e Muares",
+    "top_icn": 5.583,
+    "lon": -54.0258,
+    "lat": -23.0226,
+    "code_muni": 5005707
+  },
+  {
+    "municipio": "Nioaque",
+    "icn_medio": 0.0389,
+    "n_especializados": 1,
+    "top_setor": "Criação de Bovinos, Exceto para Corte e Leite",
+    "top_icn": 1.282,
+    "lon": -55.9014,
+    "lat": -21.1008,
+    "code_muni": 5005806
+  },
+  {
+    "municipio": "Nova Alvorada Do Sul",
+    "icn_medio": -0.5593,
+    "n_especializados": 0,
+    "top_setor": "Cultivo de Mandioca",
+    "top_icn": 0.999,
+    "lon": -54.2169,
+    "lat": -21.491,
+    "code_muni": 5006002
+  },
+  {
+    "municipio": "Nova Andradina",
+    "icn_medio": 0.1885,
+    "n_especializados": 1,
+    "top_setor": "Criação de Ovinos, Inclusive para Produção de Lã",
+    "top_icn": 6.81,
+    "lon": -53.4218,
+    "lat": -21.9255,
+    "code_muni": 5006200
+  },
+  {
+    "municipio": "Novo Horizonte Do Sul",
+    "icn_medio": 0.1614,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Mandioca",
+    "top_icn": 5.932,
+    "lon": -53.7819,
+    "lat": -22.6031,
+    "code_muni": 5006259
+  },
+  {
+    "municipio": "Paraíso Das Águas",
+    "icn_medio": 0.1839,
+    "n_especializados": 3,
+    "top_setor": "Cultivo de Outras Oleaginosas de Lavoura Temporária não Especificadas Anteriormente",
+    "top_icn": 3.233,
+    "lon": -53.1303,
+    "lat": -19.2281,
+    "code_muni": 5006275
+  },
+  {
+    "municipio": "Paranaíba",
+    "icn_medio": 0.4317,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Mamão",
+    "top_icn": 15.424,
+    "lon": -51.3962,
+    "lat": -19.5274,
+    "code_muni": 5006309
+  },
+  {
+    "municipio": "Paranhos",
+    "icn_medio": 0.0787,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Outras Plantas de Lavoura Temporária não Especificadas Anteriormente",
+    "top_icn": 2.674,
+    "lon": -55.356,
+    "lat": -23.7111,
+    "code_muni": 5006358
+  },
+  {
+    "municipio": "Pedro Gomes",
+    "icn_medio": 0.0942,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Outras Plantas de Lavoura Temporária não Especificadas Anteriormente",
+    "top_icn": 2.555,
+    "lon": -54.339,
+    "lat": -17.9143,
+    "code_muni": 5006408
+  },
+  {
+    "municipio": "Ponta Porã",
+    "icn_medio": 0.5828,
+    "n_especializados": 6,
+    "top_setor": "Cultivo de Erva-Mate",
+    "top_icn": 12.225,
+    "lon": -55.5839,
+    "lat": -22.2021,
+    "code_muni": 5006606
+  },
+  {
+    "municipio": "Porto Murtinho",
+    "icn_medio": 0.0082,
+    "n_especializados": 0,
+    "top_setor": "Criação de Bovinos para Corte",
+    "top_icn": 0.53,
+    "lon": -57.3834,
+    "lat": -21.2247,
+    "code_muni": 5006903
+  },
+  {
+    "municipio": "Ribas Do Rio Pardo",
+    "icn_medio": 0.1272,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Abacaxi",
+    "top_icn": 2.189,
+    "lon": -53.5447,
+    "lat": -20.5953,
+    "code_muni": 5007109
+  },
+  {
+    "municipio": "Rio Brilhante",
+    "icn_medio": 0.192,
+    "n_especializados": 3,
+    "top_setor": "Cultivo de Outras Oleaginosas de Lavoura Temporária não Especificadas Anteriormente",
+    "top_icn": 3.033,
+    "lon": -54.5582,
+    "lat": -21.6962,
+    "code_muni": 5007208
+  },
+  {
+    "municipio": "Rio Negro",
+    "icn_medio": 0.1335,
+    "n_especializados": 1,
+    "top_setor": "Criação de EqüInos",
+    "top_icn": 4.304,
+    "lon": -54.9629,
+    "lat": -19.4468,
+    "code_muni": 5007307
+  },
+  {
+    "municipio": "Rio Verde De Mato Grosso",
+    "icn_medio": 0.1323,
+    "n_especializados": 1,
+    "top_setor": "Apicultura",
+    "top_icn": 4.327,
+    "lon": -55.043,
+    "lat": -18.8134,
+    "code_muni": 5007406
+  },
+  {
+    "municipio": "Rochedo",
+    "icn_medio": 0.4826,
+    "n_especializados": 3,
+    "top_setor": "Criação de Asininos e Muares",
+    "top_icn": 18.112,
+    "lon": -54.7354,
+    "lat": -19.9787,
+    "code_muni": 5007505
+  },
+  {
+    "municipio": "Santa Rita Do Pardo",
+    "icn_medio": -0.3078,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Seringueira",
+    "top_icn": 3.523,
+    "lon": -52.7752,
+    "lat": -21.3188,
+    "code_muni": 5007554
+  },
+  {
+    "municipio": "São Gabriel Do Oeste",
+    "icn_medio": 0.4353,
+    "n_especializados": 5,
+    "top_setor": "Criação de Aves, Exceto Galináceos",
+    "top_icn": 7.107,
+    "lon": -54.4825,
+    "lat": -19.1689,
+    "code_muni": 5007695
+  },
+  {
+    "municipio": "Sete Quedas",
+    "icn_medio": 0.0087,
+    "n_especializados": 0,
+    "top_setor": "Criação de Bovinos para Corte",
+    "top_icn": 0.531,
+    "lon": -55.0278,
+    "lat": -23.8806,
+    "code_muni": 5007703
+  },
+  {
+    "municipio": "Selvíria",
+    "icn_medio": 0.0307,
+    "n_especializados": 0,
+    "top_setor": "Cultivo de Soja",
+    "top_icn": 0.642,
+    "lon": -51.7583,
+    "lat": -20.2821,
+    "code_muni": 5007802
+  },
+  {
+    "municipio": "Sidrolândia",
+    "icn_medio": 0.4688,
+    "n_especializados": 5,
+    "top_setor": "Criação de Frangos para Corte",
+    "top_icn": 5.872,
+    "lon": -54.9421,
+    "lat": -21.0937,
+    "code_muni": 5007901
+  },
+  {
+    "municipio": "Sonora",
+    "icn_medio": 0.0851,
+    "n_especializados": 1,
+    "top_setor": "Cultivo de Cana-De-Açúcar",
+    "top_icn": 4.082,
+    "lon": -54.4319,
+    "lat": -17.6491,
+    "code_muni": 5007935
+  },
+  {
+    "municipio": "Tacuru",
+    "icn_medio": 0.0288,
+    "n_especializados": 0,
+    "top_setor": "Criação de Bovinos para Leite",
+    "top_icn": 0.571,
+    "lon": -54.9905,
+    "lat": -23.6493,
+    "code_muni": 5007950
+  },
+  {
+    "municipio": "Taquarussu",
+    "icn_medio": -2.6873,
+    "n_especializados": 1,
+    "top_setor": "Criação de Bovinos para Leite",
+    "top_icn": 3.363,
+    "lon": -53.431,
+    "lat": -22.6678,
+    "code_muni": 5007976
+  },
+  {
+    "municipio": "Terenos",
+    "icn_medio": 0.8305,
+    "n_especializados": 7,
+    "top_setor": "Cultivo de Coco-Da-Baía",
+    "top_icn": 11.36,
+    "lon": -55.0242,
+    "lat": -20.4473,
+    "code_muni": 5008008
+  },
+  {
+    "municipio": "Três Lagoas",
+    "icn_medio": 0.1913,
+    "n_especializados": 2,
+    "top_setor": "Cultivo de Flores e Plantas Ornamentais",
+    "top_icn": 5.34,
+    "lon": -52.2121,
+    "lat": -20.4382,
+    "code_muni": 5008305
+  },
+  {
+    "municipio": "Vicentina",
+    "icn_medio": 0.1836,
+    "n_especializados": 3,
+    "top_setor": "Cultivo de Cana-De-Açúcar",
+    "top_icn": 3.988,
+    "lon": -54.4249,
+    "lat": -22.4671,
+    "code_muni": 5008404
+  }
+]

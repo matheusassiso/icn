@@ -1,0 +1,370 @@
+[
+  {
+    "codigo": [159801],
+    "setor": ["Apicultura"],
+    "icn_medio": [0.3056],
+    "icn_max": [7.124],
+    "n_espec": [6],
+    "top5": ["Figueirão", "Rio Verde De Mato Grosso", "Bonito", "Dourados", "Terenos"]
+  },
+  {
+    "codigo": [159802],
+    "setor": ["Criação de Animais de Estimação"],
+    "icn_medio": [0.3262],
+    "icn_max": [21.472],
+    "n_espec": [2],
+    "top5": ["Itaporã", "Corumbá", "Fátima Do Sul", "Japorã", "Ladário"]
+  },
+  {
+    "codigo": [152103],
+    "setor": ["Criação de Asininos e Muares"],
+    "icn_medio": [0.4335],
+    "icn_max": [18.112],
+    "n_espec": [6],
+    "top5": ["Rochedo", "Naviraí", "Aquidauana", "Paranaíba", "Iguatemi"]
+  },
+  {
+    "codigo": [155504],
+    "setor": ["Criação de Aves, Exceto Galináceos"],
+    "icn_medio": [0.2564],
+    "icn_max": [7.309],
+    "n_espec": [4],
+    "top5": ["Iguatemi", "São Gabriel Do Oeste", "Sidrolândia", "Batayporã", "Coronel Sapucaia"]
+  },
+  {
+    "codigo": [151201],
+    "setor": ["Criação de Bovinos para Corte"],
+    "icn_medio": [0.3581],
+    "icn_max": [0.537],
+    "n_espec": [0],
+    "top5": ["Corumbá", "Miranda", "Sete Quedas", "Brasilândia", "Porto Murtinho"]
+  },
+  {
+    "codigo": [151202],
+    "setor": ["Criação de Bovinos para Leite"],
+    "icn_medio": [0.3986],
+    "icn_max": [3.363],
+    "n_espec": [7],
+    "top5": ["Taquarussu", "Mundo Novo", "Glória De Dourados", "Rochedo", "Japorã"]
+  },
+  {
+    "codigo": [151203],
+    "setor": ["Criação de Bovinos, Exceto para Corte e Leite"],
+    "icn_medio": [0.3488],
+    "icn_max": [3.483],
+    "n_espec": [6],
+    "top5": ["Inocência", "Figueirão", "Pedro Gomes", "Caracol", "Nioaque"]
+  },
+  {
+    "codigo": [152101],
+    "setor": ["Criação de Bufalinos"],
+    "icn_medio": [0.3187],
+    "icn_max": [7.247],
+    "n_espec": [6],
+    "top5": ["Aparecida Do Taboado", "Caracol", "Bodoquena", "Naviraí", "Corumbá"]
+  },
+  {
+    "codigo": [153901],
+    "setor": ["Criação de Caprinos"],
+    "icn_medio": [0.2785],
+    "icn_max": [18.841],
+    "n_espec": [2],
+    "top5": ["Jaraguari", "Campo Grande", "Fátima Do Sul", "Japorã", "Ladário"]
+  },
+  {
+    "codigo": [152102],
+    "setor": ["Criação de EqüInos"],
+    "icn_medio": [0.2256],
+    "icn_max": [7.316],
+    "n_espec": [6],
+    "top5": ["Campo Grande", "Rio Negro", "Jaraguari", "Aquidauana", "Bela Vista"]
+  },
+  {
+    "codigo": [155501],
+    "setor": ["Criação de Frangos para Corte"],
+    "icn_medio": [0.3651],
+    "icn_max": [5.872],
+    "n_espec": [9],
+    "top5": ["Sidrolândia", "Glória De Dourados", "Douradina", "Fátima Do Sul", "Dourados"]
+  },
+  {
+    "codigo": [155503],
+    "setor": ["Criação de Outros Galináceos, Exceto para Corte"],
+    "icn_medio": [0.4563],
+    "icn_max": [29.596],
+    "n_espec": [4],
+    "top5": ["Dois Irmãos Do Buriti", "Jaraguari", "Itaquiraí", "São Gabriel Do Oeste", "Douradina"]
+  },
+  {
+    "codigo": [153902],
+    "setor": ["Criação de Ovinos, Inclusive para Produção de Lã"],
+    "icn_medio": [0.2672],
+    "icn_max": [8.4],
+    "n_espec": [4],
+    "top5": ["Bela Vista", "Nova Andradina", "Jaraguari", "Bandeirantes", "Dourados"]
+  },
+  {
+    "codigo": [154700],
+    "setor": ["Criação de Suínos"],
+    "icn_medio": [0.3345],
+    "icn_max": [4.645],
+    "n_espec": [6],
+    "top5": ["Jateí", "Glória De Dourados", "Ivinhema", "São Gabriel Do Oeste", "Vicentina"]
+  },
+  {
+    "codigo": [119901],
+    "setor": ["Cultivo de Abacaxi"],
+    "icn_medio": [0.0959],
+    "icn_max": [5.699],
+    "n_espec": [2],
+    "top5": ["Campo Grande", "Ribas Do Rio Pardo", "Douradina", "Fátima Do Sul", "Japorã"]
+  },
+  {
+    "codigo": [112101],
+    "setor": ["Cultivo de Algodão Herbáceo"],
+    "icn_medio": [0.2216],
+    "icn_max": [9.149],
+    "n_espec": [2],
+    "top5": ["Chapadão Do Sul", "Costa Rica", "Sidrolândia", "Douradina", "Fátima Do Sul"]
+  },
+  {
+    "codigo": [116401],
+    "setor": ["Cultivo de Amendoim"],
+    "icn_medio": [-1.6541],
+    "icn_max": [-0.001],
+    "n_espec": [0],
+    "top5": ["Japorã", "Ladário", "Douradina", "Fátima Do Sul", "Mundo Novo"]
+  },
+  {
+    "codigo": [133402],
+    "setor": ["Cultivo de Banana"],
+    "icn_medio": [0.3604],
+    "icn_max": [20.926],
+    "n_espec": [2],
+    "top5": ["Dois Irmãos Do Buriti", "Terenos", "Campo Grande", "Sidrolândia", "Douradina"]
+  },
+  {
+    "codigo": [134200],
+    "setor": ["Cultivo de Café"],
+    "icn_medio": [0.6816],
+    "icn_max": [41.525],
+    "n_espec": [3],
+    "top5": ["Alcinópolis", "Eldorado", "Ribas Do Rio Pardo", "Douradina", "Fátima Do Sul"]
+  },
+  {
+    "codigo": [113000],
+    "setor": ["Cultivo de Cana-De-Açúcar"],
+    "icn_medio": [0.2237],
+    "icn_max": [4.082],
+    "n_espec": [5],
+    "top5": ["Sonora", "Vicentina", "Caarapó", "Rio Brilhante", "Dois Irmãos Do Buriti"]
+  },
+  {
+    "codigo": [119904],
+    "setor": ["Cultivo de Cebola"],
+    "icn_medio": [-0.4806],
+    "icn_max": [-0.001],
+    "n_espec": [0],
+    "top5": ["Japorã", "Ladário", "Douradina", "Fátima Do Sul", "Mundo Novo"]
+  },
+  {
+    "codigo": [133404],
+    "setor": ["Cultivo de Cítricos, Exceto Laranja"],
+    "icn_medio": [0.3779],
+    "icn_max": [20.108],
+    "n_espec": [3],
+    "top5": ["Aparecida Do Taboado", "Dois Irmãos Do Buriti", "Campo Grande", "Terenos", "Rio Verde De Mato Grosso"]
+  },
+  {
+    "codigo": [133405],
+    "setor": ["Cultivo de Coco-Da-Baía"],
+    "icn_medio": [0.2383],
+    "icn_max": [11.36],
+    "n_espec": [2],
+    "top5": ["Terenos", "Aquidauana", "Douradina", "Fátima Do Sul", "Japorã"]
+  },
+  {
+    "codigo": [139302],
+    "setor": ["Cultivo de Erva-Mate"],
+    "icn_medio": [0.1921],
+    "icn_max": [12.225],
+    "n_espec": [2],
+    "top5": ["Ponta Porã", "Amambai", "Douradina", "Fátima Do Sul", "Japorã"]
+  },
+  {
+    "codigo": [122900],
+    "setor": ["Cultivo de Flores e Plantas Ornamentais"],
+    "icn_medio": [0.1563],
+    "icn_max": [5.34],
+    "n_espec": [3],
+    "top5": ["Três Lagoas", "Campo Grande", "Terenos", "Coronel Sapucaia", "Douradina"]
+  },
+  {
+    "codigo": [133499],
+    "setor": ["Cultivo de Frutas de Lavoura Permanente não Especificadas Anteriormente"],
+    "icn_medio": [0.2008],
+    "icn_max": [10.044],
+    "n_espec": [2],
+    "top5": ["Aparecida Do Taboado", "Campo Grande", "Douradina", "Fátima Do Sul", "Japorã"]
+  },
+  {
+    "codigo": [131800],
+    "setor": ["Cultivo de Laranja"],
+    "icn_medio": [0.4687],
+    "icn_max": [21.289],
+    "n_espec": [2],
+    "top5": ["Dois Irmãos Do Buriti", "Aparecida Do Taboado", "Campo Grande", "Douradina", "Fátima Do Sul"]
+  },
+  {
+    "codigo": [133408],
+    "setor": ["Cultivo de Mamão"],
+    "icn_medio": [0.2582],
+    "icn_max": [15.424],
+    "n_espec": [2],
+    "top5": ["Paranaíba", "Aparecida Do Taboado", "Douradina", "Fátima Do Sul", "Japorã"]
+  },
+  {
+    "codigo": [119906],
+    "setor": ["Cultivo de Mandioca"],
+    "icn_medio": [0.7667],
+    "icn_max": [14.53],
+    "n_espec": [9],
+    "top5": ["Mundo Novo", "Ivinhema", "Eldorado", "Novo Horizonte Do Sul", "Iguatemi"]
+  },
+  {
+    "codigo": [119908],
+    "setor": ["Cultivo de Melancia"],
+    "icn_medio": [-0.2579],
+    "icn_max": [-0.001],
+    "n_espec": [0],
+    "top5": ["Japorã", "Ladário", "Douradina", "Fátima Do Sul", "Mundo Novo"]
+  },
+  {
+    "codigo": [112199],
+    "setor": ["Cultivo de Outras Fibras de Lavoura Temporária não Especificadas Anteriormente"],
+    "icn_medio": [0.3098],
+    "icn_max": [13.143],
+    "n_espec": [5],
+    "top5": ["Batayporã", "Iguatemi", "Campo Grande", "Ponta Porã", "Bela Vista"]
+  },
+  {
+    "codigo": [116499],
+    "setor": ["Cultivo de Outras Oleaginosas de Lavoura Temporária não Especificadas Anteriormente"],
+    "icn_medio": [0.2127],
+    "icn_max": [5],
+    "n_espec": [4],
+    "top5": ["Terenos", "Paraíso Das Águas", "Rio Brilhante", "Dourados", "Chapadão Do Sul"]
+  },
+  {
+    "codigo": [139399],
+    "setor": ["Cultivo de Outras Plantas de Lavoura Permanente não Especificadas Anteriormente"],
+    "icn_medio": [0.2682],
+    "icn_max": [3.86],
+    "n_espec": [8],
+    "top5": ["Itaquiraí", "Iguatemi", "Itaporã", "Dois Irmãos Do Buriti", "Ponta Porã"]
+  },
+  {
+    "codigo": [119999],
+    "setor": ["Cultivo de Outras Plantas de Lavoura Temporária não Especificadas Anteriormente"],
+    "icn_medio": [0.2873],
+    "icn_max": [5.56],
+    "n_espec": [6],
+    "top5": ["São Gabriel Do Oeste", "Paranhos", "Pedro Gomes", "Paraíso Das Águas", "Dourados"]
+  },
+  {
+    "codigo": [111399],
+    "setor": ["Cultivo de Outros Cereais não Especificados Anteriormente"],
+    "icn_medio": [0.3621],
+    "icn_max": [3.974],
+    "n_espec": [11],
+    "top5": ["Laguna Carapã", "Fátima Do Sul", "Aral Moreira", "Itaporã", "Bodoquena"]
+  },
+  {
+    "codigo": [139303],
+    "setor": ["Cultivo de Pimenta-Do-Reino"],
+    "icn_medio": [-0.0859],
+    "icn_max": [-0.001],
+    "n_espec": [0],
+    "top5": ["Japorã", "Ladário", "Douradina", "Fátima Do Sul", "Mundo Novo"]
+  },
+  {
+    "codigo": [139304],
+    "setor": ["Cultivo de Plantas para Condimento, Exceto Pimenta-Do-Reino"],
+    "icn_medio": [-0.3951],
+    "icn_max": [-0.001],
+    "n_espec": [0],
+    "top5": ["Japorã", "Ladário", "Douradina", "Fátima Do Sul", "Mundo Novo"]
+  },
+  {
+    "codigo": [139306],
+    "setor": ["Cultivo de Seringueira"],
+    "icn_medio": [0.3404],
+    "icn_max": [9.71],
+    "n_espec": [5],
+    "top5": ["Aparecida Do Taboado", "Cassilândia", "Santa Rita Do Pardo", "Inocência", "Água Clara"]
+  },
+  {
+    "codigo": [115600],
+    "setor": ["Cultivo de Soja"],
+    "icn_medio": [0.2884],
+    "icn_max": [1.393],
+    "n_espec": [4],
+    "top5": ["Maracaju", "Aral Moreira", "Ponta Porã", "Douradina", "Itaporã"]
+  },
+  {
+    "codigo": [132600],
+    "setor": ["Cultivo de Uva"],
+    "icn_medio": [0.112],
+    "icn_max": [4.62],
+    "n_espec": [2],
+    "top5": ["Dourados", "Campo Grande", "Douradina", "Fátima Do Sul", "Japorã"]
+  },
+  {
+    "codigo": [121101],
+    "setor": ["Horticultura, Exceto Morango"],
+    "icn_medio": [0.2503],
+    "icn_max": [4.166],
+    "n_espec": [7],
+    "top5": ["Jaraguari", "Sidrolândia", "Campo Grande", "Fátima Do Sul", "Três Lagoas"]
+  },
+  {
+    "codigo": [142300],
+    "setor": ["Produção de Mudas e Outras Formas de Propagação Vegetal, Certificadas"],
+    "icn_medio": [-0.0859],
+    "icn_max": [-0.001],
+    "n_espec": [0],
+    "top5": ["Japorã", "Ladário", "Douradina", "Fátima Do Sul", "Mundo Novo"]
+  },
+  {
+    "codigo": [155505],
+    "setor": ["Produção de Ovos"],
+    "icn_medio": [0.4481],
+    "icn_max": [13.496],
+    "n_espec": [8],
+    "top5": ["Douradina", "Ivinhema", "Terenos", "Eldorado", "Cassilândia"]
+  },
+  {
+    "codigo": [155502],
+    "setor": ["Produção de Pintos de Um Dia"],
+    "icn_medio": [0.2083],
+    "icn_max": [8.125],
+    "n_espec": [4],
+    "top5": ["Água Clara", "Sidrolândia", "Dourados", "Cassilândia", "Fátima Do Sul"]
+  },
+  {
+    "codigo": [141502],
+    "setor": ["Produção de Sementes Certificadas de Forrageiras para Formação de Pasto"],
+    "icn_medio": [0.1378],
+    "icn_max": [5.53],
+    "n_espec": [3],
+    "top5": ["Campo Grande", "Paraíso Das Águas", "Água Clara", "Jaraguari", "Terenos"]
+  },
+  {
+    "codigo": [141501],
+    "setor": ["Produção de Sementes Certificadas, Exceto de Forrageiras para Pasto"],
+    "icn_medio": [0.2033],
+    "icn_max": [7.992],
+    "n_espec": [2],
+    "top5": ["Ponta Porã", "Bandeirantes", "Maracaju", "Campo Grande", "São Gabriel Do Oeste"]
+  }
+]
