@@ -115,34 +115,37 @@ icn <- ICN(nomes_mun, ql, ihh, pr)
 ```
 
 ```{r formatos-longos}
+# as.data.frame() renomeia colunas numéricas "1".."46" para "X1".."X46",
+# então atribuímos desc_setor diretamente como nomes de coluna antes de pivotar.
+colnames(ql)  <- desc_setor
+colnames(pr)  <- desc_setor
+colnames(ihh) <- desc_setor
+
 ql_long <- as.data.frame(ql) |>
-  mutate(municipio = nomes_mun) |>
-  pivot_longer(-municipio, names_to = "idx", values_to = "QL") |>
-  mutate(
-    setor = desc_setor[as.integer(idx)],
-    cod   = nomes_setor[as.integer(idx)]
-  )
+  rownames_to_column("municipio") |>
+  pivot_longer(-municipio, names_to = "setor", values_to = "QL")
 
 pr_long <- as.data.frame(pr) |>
-  mutate(municipio = nomes_mun) |>
-  pivot_longer(-municipio, names_to = "idx", values_to = "PR") |>
-  mutate(setor = desc_setor[as.integer(idx)])
+  rownames_to_column("municipio") |>
+  pivot_longer(-municipio, names_to = "setor", values_to = "PR")
 
 ihh_long <- as.data.frame(ihh) |>
-  mutate(municipio = nomes_mun) |>
-  pivot_longer(-municipio, names_to = "idx", values_to = "IHH") |>
-  mutate(setor = desc_setor[as.integer(idx)])
+  rownames_to_column("municipio") |>
+  pivot_longer(-municipio, names_to = "setor", values_to = "IHH")
 
+# ICN já é data.frame com colunas "1".."46" — mapear via índice funciona aqui
 icn_long <- icn |>
   pivot_longer(-regiao, names_to = "idx", values_to = "ICN") |>
   rename(municipio = regiao) |>
   mutate(setor = desc_setor[as.integer(idx)])
 
+emprego_mun_vec <- rowSums(mat)   # vetor nomeado: municipio → total
+
 # Resumo por município
 resumo <- ql_long |>
   group_by(municipio) |>
   summarise(
-    emprego_total = sum(mat[municipio[1], ], na.rm = TRUE),
+    emprego_total = emprego_mun_vec[municipio[1]],
     ql_medio      = mean(QL),
     n_spec        = sum(QL > 1),
     ql_max        = max(QL),
@@ -175,7 +178,7 @@ ms_resumo <- ms_sf |>
 ```{r top15-emprego, fig.height=5}
 emprego_mun <- tibble(
   municipio = nomes_mun,
-  total     = rowSums(mat)
+  total     = emprego_mun_vec
 )
 
 emprego_mun |>
@@ -395,11 +398,13 @@ salvar("08_ihh_top15", w = 11, h = 5.5)
 ## Heatmap: PR dos 10 setores mais empregadores × municípios com maior emprego
 
 ```{r heatmap-pr, fig.height=7, fig.width=13}
-top10_setores <- colSums(mat) |> sort(decreasing = TRUE) |> head(10) |> names()
-top20_mun     <- rowSums(mat) |> sort(decreasing = TRUE) |> head(20) |> names()
+# top10 por total de emprego no setor
+top10_setores <- tibble(setor = desc_setor, total = colSums(mat)) |>
+  slice_max(total, n = 10) |> pull(setor)
+top20_mun <- rowSums(mat) |> sort(decreasing = TRUE) |> head(20) |> names()
 
 pr_long |>
-  filter(idx %in% top10_setores, municipio %in% top20_mun) |>
+  filter(setor %in% top10_setores, municipio %in% top20_mun) |>
   mutate(
     setor     = str_trunc(setor, 35, ellipsis = "…"),
     municipio = factor(municipio, levels = rev(top20_mun))
