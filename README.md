@@ -1,16 +1,17 @@
 # ICN — Indicadores de Análise Regional · Municípios do MS
 
-[![Render & Publish](https://github.com/matheusassiso/icn/actions/workflows/render.yml/badge.svg)](https://github.com/matheusassiso/icn/actions/workflows/render.yml)
-[![Relatório](https://img.shields.io/badge/Relatório-GitHub%20Pages-blue?logo=github)](https://matheusassiso.github.io/icn/)
+[![Render](https://github.com/matheusassiso/icn/actions/workflows/render.yml/badge.svg)](https://github.com/matheusassiso/icn/actions/workflows/render.yml)
 
 
 ---
 
-## Dashboard Interativo
+## Abrir o HTML no navegador
 
-[![Dashboard ICN](https://img.shields.io/badge/Dashboard-ICN%20Interativo-1a6b3c?style=for-the-badge&logo=html5&logoColor=white)](https://matheusassiso.github.io/icn/icn_dashboard.html)
+[Baixe o ZIP do repositório](https://github.com/matheusassiso/icn/archive/refs/heads/main.zip), extraia o conteúdo e abra [`docs/icn_dashboard.html`](docs/icn_dashboard.html) no navegador.
 
-> [**→ Abrir Dashboard**](https://matheusassiso.github.io/icn/icn_dashboard.html) — mapa coroplético dos 79 municípios, ranking, análise por município e por setor, tabela completa (HTML puro, sem servidor necessário).
+A visualização interativa carrega bibliotecas e mapas pela internet.
+
+O painel reúne a visão geral, o mapa coroplético dos 79 municípios, a análise por município e por setor e uma tabela consultável. Use o mapa para comparar a distribuição territorial e as abas de município e setor para investigar a composição do emprego. As próximas seções trazem a interpretação estática dos indicadores e os rankings.
 
 Repositório desenvolvido para a disciplina de **Economia Regional e Urbana** (graduação em Economia), com base em:
 
@@ -41,7 +42,7 @@ icn/
 │   └── ms_municipios_sf.rds      → geometria dos municípios de MS (geobr/IBGE 2020)
 ├── figures/                      → PNGs gerados pelo Rmd
 ├── ql_estados_brasil.Rmd         → análise completa
-├── .github/workflows/render.yml  → CI/CD → GitHub Pages
+├── .github/workflows/render.yml  → renderização de figuras
 └── teer real.Rproj
 ```
 

@@ -1,4 +1,4 @@
-name: Render & Publish
+name: Render
 
 on:
   push:
@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   render:
@@ -63,10 +61,3 @@ jobs:
             git commit -m "chore: atualizar figuras [skip ci]"
             git push origin main
           fi
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          force_orphan: true
